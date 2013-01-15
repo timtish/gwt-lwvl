@@ -1,15 +1,9 @@
 package com.dtornkaew.gwt.validation.client.validators;
 
-import java.util.Map;
-import java.util.MissingResourceException;
-
-import junit.framework.Assert;
-
-import org.junit.Test;
-
+import com.dtornkaew.gwt.validation.client.HasValue;
 import com.dtornkaew.gwt.validation.client.ValidationResult;
-import com.dtornkaew.gwt.validation.client.Validator.HasValue;
-import com.dtornkaew.gwt.validation.client.Validator.ValidationMessageBundle;
+import junit.framework.Assert;
+import org.junit.Test;
 
 public class NumberValidatorTest
 {
@@ -18,7 +12,7 @@ public class NumberValidatorTest
     {
         Dummy<Integer> d = new Dummy<Integer>();
 
-        NumberValidator<Integer> v = new NumberValidator<Integer>( d, new Msg() );
+        IntervalValidator<Integer> v = new IntervalValidator<Integer>( d );
 
         ValidationResult r = v.validate();
 
@@ -32,7 +26,7 @@ public class NumberValidatorTest
     {
         Dummy<Double> d = new Dummy<Double>( 5d );
 
-        NumberValidator<Double> v = new NumberValidator<Double>( d, new Msg() );
+        IntervalValidator<Double> v = new IntervalValidator<Double>( d );
         v.setMinValue( 5d );
         v.setMaxValue( 10d );
 
@@ -48,7 +42,7 @@ public class NumberValidatorTest
     {
         Dummy<Double> d = new Dummy<Double>( 5d );
 
-        NumberValidator<Double> v = new NumberValidator<Double>( d, new Msg() );
+        IntervalValidator<Double> v = new IntervalValidator<Double>( d );
         v.setMinValue( 6d );
         v.setMaxValue( 10d );
 
@@ -58,7 +52,7 @@ public class NumberValidatorTest
 
         Assert.assertEquals( 1, r.getErrors().size() );
 
-        Assert.assertEquals( "to low", r.getErrors().get( 0 ).getMessage() );
+        Assert.assertEquals( IntervalValidator.ErrorCodes.LOWER_THAN_MIN, r.getErrors().get( 0 ).getCode() );
     }
 
     @Test
@@ -66,7 +60,7 @@ public class NumberValidatorTest
     {
         Dummy<Long> d = new Dummy<Long>( 5l );
 
-        NumberValidator<Long> v = new NumberValidator<Long>( d, new Msg() );
+        IntervalValidator<Long> v = new IntervalValidator<Long>( d );
         v.setMinValue( 2l );
         v.setMaxValue( 4l );
 
@@ -76,80 +70,7 @@ public class NumberValidatorTest
 
         Assert.assertEquals( 1, r.getErrors().size() );
 
-        Assert.assertEquals( "to high", r.getErrors().get( 0 ).getMessage() );
-    }
-
-    class Msg
-        implements ValidationMessageBundle
-    {
-
-        @Override
-        public boolean getBoolean( String methodName )
-            throws MissingResourceException
-        {
-            // TODO Auto-generated method stub
-            return false;
-        }
-
-        @Override
-        public double getDouble( String methodName )
-            throws MissingResourceException
-        {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        @Override
-        public float getFloat( String methodName )
-            throws MissingResourceException
-        {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        @Override
-        public int getInt( String methodName )
-            throws MissingResourceException
-        {
-            // TODO Auto-generated method stub
-            return 0;
-        }
-
-        @Override
-        public Map<String, String> getMap( String methodName )
-            throws MissingResourceException
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
-        @Override
-        public String getString( String methodName )
-            throws MissingResourceException
-        {
-            if( "validation_required_required".equals( methodName ) )
-            {
-                return "required";
-            }
-            else if( "validation_number_lowerThanMin".equals( methodName ) )
-            {
-                return "to low";
-            }
-            else if( "validation_number_exceedsMax".equals( methodName ) )
-            {
-                return "to high";
-            }
-            return "";
-        }
-
-        @Override
-        public String[] getStringArray( String methodName )
-            throws MissingResourceException
-        {
-            // TODO Auto-generated method stub
-            return null;
-        }
-
+        Assert.assertEquals( IntervalValidator.ErrorCodes.EXCEEDS_MAX, r.getErrors().get( 0 ).getCode() );
     }
 
     class Dummy<T>

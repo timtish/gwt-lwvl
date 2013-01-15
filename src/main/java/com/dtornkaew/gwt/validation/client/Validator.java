@@ -4,22 +4,22 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.google.gwt.i18n.client.ConstantsWithLookup;
-
+/**
+ * Abstract validator.
+ *
+ * @param <T> target element class
+ */
 public abstract class Validator<T>
 {
-    public static final String DEFAULT_PREFIX = "validation_";
-    public static final String DEFAULT_KEY = "key";
-    
     private List<ValidationAction> actions = new LinkedList<ValidationAction>();
 
-    protected final T target;
+    private final HasValue<T> target;
 
     private boolean enabled;
     
     private final String key;
     
-    public Validator( String key, T target )
+    public Validator( String key, HasValue<T> target )
     {
         this.target = target;
         this.enabled = true;
@@ -42,12 +42,7 @@ public abstract class Validator<T>
         return this;
     }
 
-    public ValidationResult validate()
-    {
-        final ValidationResult result = new ValidationResult( this );
-
-        return result;
-    }
+    public abstract ValidationResult validate();
 
     public Validator<T> addAction( ValidationAction action )
     {
@@ -69,15 +64,12 @@ public abstract class Validator<T>
             i.next().reset();
     }
 
-    protected abstract Object getValue();
+	protected T getValue()
+	{
+		return target.getValue();
+	}
 
-    public interface ValidationMessageBundle extends ConstantsWithLookup
-    {
-        
-    }
-    
-    public interface HasValue<T>
-    {
-        public T getValue();
-    }
+	public HasValue<T> getTarget() {
+		return target;
+	}
 }

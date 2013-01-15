@@ -1,9 +1,13 @@
-package com.dtornkaew.gwt.validation.client;
+package com.dtornkaew.gwt.validation.client.processors;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import com.dtornkaew.gwt.validation.client.ValidationAction;
+import com.dtornkaew.gwt.validation.client.ValidationResult;
+import com.dtornkaew.gwt.validation.client.Validator;
 
 public class SimpleValidationProcessorImpl
     implements ValidationProcessor

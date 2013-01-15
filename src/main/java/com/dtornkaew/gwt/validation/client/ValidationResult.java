@@ -1,40 +1,19 @@
 package com.dtornkaew.gwt.validation.client;
 
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.dtornkaew.gwt.validation.client.i18n.MessageProvider;
+/**
+ * List of validation errors.
+ */
+public class ValidationResult implements Iterable<ValidationError<?>>
+{
+	private final List<ValidationError<?>> errors;
 
-public class ValidationResult
-{    
-    public class ValidationError<C>
+    public ValidationResult()
     {
-        private final MessageProvider<C> messageProvider;
-        
-        private final C code;
-        
-        public ValidationError( C code, MessageProvider<C> messageProvider )
-        {
-            this.code = code;
-            this.messageProvider = messageProvider;
-        }
-        public C getCode()
-        {
-            return code;
-        }
-        public String getMessage()
-        {
-            return messageProvider.getMessage( code );
-        }
-    }
-    
-    private final List<ValidationError<?>> errors;
-    
-    private final Validator<?> validator;
-    
-    public ValidationResult( Validator<?> validator )
-    {
-        this.validator = validator;
         this.errors = new LinkedList<ValidationError<?>>();
     }
     
@@ -42,24 +21,27 @@ public class ValidationResult
     {
         this.errors.add( error );
     }
-    
-    public Validator<?> getValidator()
+
+    public void addErrors( Collection<ValidationError<?>> error )
     {
-        return validator;
+        this.errors.addAll(error);
     }
-    
+
     public List<ValidationError<?>> getErrors()
     {
         return errors;
     }
-    
-    public List<String> getMessages()
-    {
-        List<String> msgs = new LinkedList<String>();
-        for( ValidationError<?> error : errors )
-        {
-            msgs.add( error.getMessage() );
-        }
-        return msgs;
-    }
+
+	public void clearErrors() {
+		errors.clear();
+	}
+
+	public boolean isValid() {
+		return errors.isEmpty();
+	}
+
+	@Override
+	public Iterator<ValidationError<?>> iterator() {
+		return errors.iterator();
+	}
 }

@@ -1,14 +1,21 @@
-package com.dtornkaew.gwt.validation.client;
+package com.dtornkaew.gwt.validation.client.processors;
 
 import java.util.List;
 import java.util.Map;
 
+import com.dtornkaew.gwt.validation.client.ValidationAction;
+import com.dtornkaew.gwt.validation.client.ValidationResult;
+import com.dtornkaew.gwt.validation.client.Validator;
+
+/**
+ * @deprecated replaced by ValidatorGroup
+ */
 public interface ValidationProcessor
 {
     /**
      * Add new validators that the <code>ValidationProcessor</code> instance will validate.
      * 
-     * @param logical grouping name for the validators.
+     * @param name logical grouping name for the validators.
      * @param validator The validators that will be used for validations
      */
     public ValidationProcessor addValidators( String name, Validator<?>... validator );
@@ -62,7 +69,7 @@ public interface ValidationProcessor
     /**
      * Removes all the validators associated with the given names
      * 
-     * @param validatorNames The names of the added validators to delete
+     * @param names The names of the added validators to delete
      */
     public void removeValidators( String... names );
 
