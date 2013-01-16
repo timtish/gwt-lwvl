@@ -1,22 +1,25 @@
 package com.dtornkaew.gwt.validation.client.validators;
 
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
-import com.dtornkaew.gwt.validation.client.Validator;
 import com.dtornkaew.gwt.validation.client.ValidationResult;
+import com.dtornkaew.gwt.validation.client.Validator;
 
 public class ValidatorsGroup extends Validator
 {
 	// last validation result cache
 	private ValidationResult validationResult = new ValidationResult();
 
-    private final List<Validator<?>> validators = new LinkedList<Validator<?>>();
+    private final List<Validator<?>> validators;
 
-	public ValidatorsGroup(Validator<?>... validator) {
-		super("ValidatorsGroup", null);
-		validators.addAll(Arrays.asList(validator));
+	public ValidatorsGroup(Validator<?>... validators) {
+		this("ValidatorsGroup", validators);
+	}
+
+	public ValidatorsGroup(String key, Validator<?>... validators) {
+		super(key);
+		this.validators = Arrays.asList(validators);
 	}
 
     public ValidationResult validate()

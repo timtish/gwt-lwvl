@@ -6,31 +6,25 @@ import com.dtornkaew.gwt.validation.client.ValidationResult;
 import com.dtornkaew.gwt.validation.client.ValidationError;
 
 /**
- * Validator, requires not null and not empty value (as string).
+ * Validator, requires not null and not empty value (as string) for at least one target.
  *
  * @param <T>
  */
 public class RequiredValidator<T>
     extends Validator<T>
 {
-    public RequiredValidator(HasValue<T> target)
-    {
-        this("RequiredValidator", target);
-    }
+	private final HasValue<T>[] targets;
 
 	public RequiredValidator(HasValue<T>... targets)
 	{
-		super("RequiredValidator", new ValuesGroup<T>(targets));
+		this("RequiredValidator", targets);
 	}
-
-    public RequiredValidator(String key, HasValue<T> target)
-    {
-        super(key, target);
-    }
 
     public RequiredValidator(String key, HasValue<T>... targets)
     {
-        super(key, new ValuesGroup<T>(targets));
+        super(key);
+		assert targets.length > 0;
+		this.targets = targets;
     }
 
     @Override
@@ -39,8 +33,11 @@ public class RequiredValidator<T>
         final ValidationResult result = new ValidationResult();
 		if (!isEnabled()) return result;
 
-        if (isEmpty(getValue()))
-            result.addError(new ValidationError<ErrorCodes>(this, ErrorCodes.REQUIRED));
+		for (HasValue<T> target : targets) {
+			T o = target.getValue();
+			if (!isEmpty(o)) return result;
+		}
+        result.addError(new ValidationError<ErrorCodes>(this, ErrorCodes.REQUIRED, targets[0]));
 
         return result;
     }
@@ -53,21 +50,4 @@ public class RequiredValidator<T>
     {
         REQUIRED
     }
-
-	private static class ValuesGroup<T> implements HasValue<T> {
-		private HasValue<T>[] targets;
-
-		private ValuesGroup(HasValue<T>... targets) {
-			this.targets = targets;
-		}
-
-		@Override
-		public T getValue() {
-			for (HasValue<T> target : targets) {
-				T o = target.getValue();
-				if (!isEmpty(o)) return o;
-			}
-			return null;
-		}
-	}
 }

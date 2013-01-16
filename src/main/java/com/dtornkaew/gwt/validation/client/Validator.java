@@ -13,15 +13,12 @@ public abstract class Validator<T>
 {
     private List<ValidationAction> actions = new LinkedList<ValidationAction>();
 
-    private final HasValue<T> target;
-
     private boolean enabled;
     
     private final String key;
     
-    public Validator( String key, HasValue<T> target )
+    public Validator( String key )
     {
-        this.target = target;
         this.enabled = true;
         this.key = key;
     }
@@ -63,13 +60,4 @@ public abstract class Validator<T>
         while ( i.hasNext() )
             i.next().reset();
     }
-
-	protected T getValue()
-	{
-		return target.getValue();
-	}
-
-	public HasValue<T> getTarget() {
-		return target;
-	}
 }

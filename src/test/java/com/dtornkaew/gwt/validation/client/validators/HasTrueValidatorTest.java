@@ -1,6 +1,5 @@
 package com.dtornkaew.gwt.validation.client.validators;
 
-import com.dtornkaew.gwt.validation.client.HasValue;
 import com.dtornkaew.gwt.validation.client.ValidationResult;
 import junit.framework.Assert;
 import org.junit.Test;
@@ -12,8 +11,8 @@ public class HasTrueValidatorTest
     {
 
         Dummy[] values = new Dummy[]{
-            new Dummy( true ),
-            new Dummy( false )
+            new Dummy<Boolean>( true ),
+            new Dummy<Boolean>( false )
         };
 
         HasTrueValidator v = new HasTrueValidator( values );
@@ -27,8 +26,8 @@ public class HasTrueValidatorTest
     public void testRequiredFail()
     {
         Dummy[] values = new Dummy[]{
-            new Dummy( false ),
-            new Dummy( false )
+            new Dummy<Boolean>( false ),
+            new Dummy<Boolean>( false )
         };
         
         HasTrueValidator v = new HasTrueValidator( values );
@@ -38,22 +37,6 @@ public class HasTrueValidatorTest
         Assert.assertEquals( 1, r.getErrors().size() );
     }
 
-
-    class Dummy implements HasValue<Boolean>
-    {
-        private Boolean value;
-
-        public Dummy( boolean b )
-        {
-            value = b;
-        }
-
-        @Override
-        public Boolean getValue()
-        {
-            return value;
-        }
-    }
 }
 
 

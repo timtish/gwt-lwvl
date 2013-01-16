@@ -3,59 +3,41 @@ package com.dtornkaew.gwt.validation.client.validators;
 import com.dtornkaew.gwt.validation.client.HasValue;
 import com.dtornkaew.gwt.validation.client.ValidationError;
 import com.dtornkaew.gwt.validation.client.ValidationResult;
+import com.dtornkaew.gwt.validation.client.Validator;
 
 public class HasTrueValidator
-    extends RequiredValidator<Boolean>
+    extends Validator<Boolean>
 {
-	public static final String NOT_TRUE = "NOT_TRUE";
-
-    public HasTrueValidator( HasValue<Boolean> target)
-    {
-        super("HasTrueValidator", target);
-    }
+	private final HasValue<Boolean>[] targets;
 
     public HasTrueValidator( HasValue<Boolean>... targets )
     {
-        super( "HasTrueValidator", new ValuesGroup(targets) );
-    }
-
-    public HasTrueValidator( String key, HasValue<Boolean> target )
-    {
-        super( key, target );
+        this( "HasTrueValidator", targets );
     }
 
     public HasTrueValidator( String key, HasValue<Boolean>... targets )
     {
-        super( key, new ValuesGroup(targets) );
+        super( key );
+		assert targets.length > 0;
+		this.targets = targets;
     }
 
 	@Override
 	public ValidationResult validate() {
-		ValidationResult result = super.validate();
-		if (!result.isValid()) return result;
+		ValidationResult result = new ValidationResult();
 		if (!isEnabled()) return result;
 
-		if (!Boolean.TRUE.equals(getValue()))
-			result.addError(new ValidationError<Object>(this, NOT_TRUE));
+		for (HasValue<Boolean> target : targets) {
+			if (Boolean.TRUE.equals(target.getValue())) return result;
+		}
+		result.addError(new ValidationError<Object>(this, ErrorCodes.NEED_TRUE, targets[0]));
 
 		return result;
 	}
 
-	private static class ValuesGroup implements HasValue<Boolean> {
-		private HasValue<Boolean>[] targets;
-
-		private ValuesGroup(HasValue<Boolean>... targets) {
-			this.targets = targets;
-		}
-
-		@Override
-		public Boolean getValue() {
-			for (HasValue<Boolean> target : targets) {
-				Boolean o = target.getValue();
-				if (Boolean.TRUE.equals(o)) return o;
-			}
-			return null;
-		}
+	public static enum ErrorCodes
+	{
+		NEED_TRUE
 	}
 
 }

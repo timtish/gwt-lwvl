@@ -1,25 +1,11 @@
 package com.dtornkaew.gwt.validation.client.validators;
 
-import com.dtornkaew.gwt.validation.client.HasValue;
 import com.dtornkaew.gwt.validation.client.ValidationResult;
 import junit.framework.Assert;
 import org.junit.Test;
 
 public class NumberValidatorTest
 {
-    @Test
-    public void testRequired()
-    {
-        Dummy<Integer> d = new Dummy<Integer>();
-
-        IntervalValidator<Integer> v = new IntervalValidator<Integer>( d );
-
-        ValidationResult r = v.validate();
-
-        Assert.assertNotNull( r );
-
-        Assert.assertEquals( 1, r.getErrors().size() );
-    }
 
     @Test
     public void testValid()
@@ -71,29 +57,6 @@ public class NumberValidatorTest
         Assert.assertEquals( 1, r.getErrors().size() );
 
         Assert.assertEquals( IntervalValidator.ErrorCodes.EXCEEDS_MAX, r.getErrors().get( 0 ).getCode() );
-    }
-
-    class Dummy<T>
-        implements HasValue<T>
-    {
-        private T value;
-        
-        public Dummy()
-        {
-            
-        }
-
-        public Dummy( T value )
-        {
-            this.value = value;
-        }
-        
-        @Override
-        public T getValue()
-        {
-            return value;
-        }
-
     }
 
 }

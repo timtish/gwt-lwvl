@@ -3,18 +3,21 @@ package com.dtornkaew.gwt.validation.client.validators;
 import com.dtornkaew.gwt.validation.client.HasValue;
 import com.dtornkaew.gwt.validation.client.ValidationError;
 import com.dtornkaew.gwt.validation.client.ValidationResult;
+import com.dtornkaew.gwt.validation.client.Validator;
 
 /**
- * Validator, requires specified integer(or float) interval
+ * Validator, requires specified integer(or float) interval.
  *
  * @param <N>
  */
 public class IntervalValidator<N extends Comparable<N>>
-    extends RequiredValidator<N>
+    extends Validator<N>
 {    
-    N minValue;
+    private N minValue;
     
-    N maxValue;
+    private N maxValue;
+
+	private final HasValue<N> target;
     
     public IntervalValidator(HasValue<N> target)
     {
@@ -23,12 +26,19 @@ public class IntervalValidator<N extends Comparable<N>>
 
     public IntervalValidator(String key, HasValue<N> target)
     {
-        super(key, target);
+        super( key );
+		this.target = target;
+    }
+
+    public IntervalValidator(HasValue<N> target, N minValue, N maxValue)
+    {
+        this( "IntervalValidator", target, minValue, maxValue );
     }
 
     public IntervalValidator(String key, HasValue<N> target, N minValue, N maxValue)
     {
-        super( key, target );
+        super( key );
+		this.target = target;
 		this.minValue = minValue;
 		this.maxValue = maxValue;
     }
@@ -38,6 +48,7 @@ public class IntervalValidator<N extends Comparable<N>>
         minValue = min;
         return this;
     }
+
     public N getMinValue()
     {
         return minValue;
@@ -56,16 +67,15 @@ public class IntervalValidator<N extends Comparable<N>>
     @Override
     public ValidationResult validate()
     {
-        final ValidationResult result = super.validate();
-		if( !result.isValid() ) return result;
-		if( !isEnabled()) return result;
+        final ValidationResult result = new ValidationResult();
+		N v = target.getValue();
+		if( !isEnabled() || v == null) return result;
 
-		N v = getValue();
 
 		if( minValue != null && minValue.compareTo(v) > 0 )
-			result.addError( new ValidationError<ErrorCodes>(this, ErrorCodes.LOWER_THAN_MIN ) );
+			result.addError(new ValidationError<ErrorCodes>(this, ErrorCodes.LOWER_THAN_MIN, v) );
 		else if( maxValue != null && maxValue.compareTo(v) < 0 )
-			result.addError( new ValidationError<ErrorCodes>(this, ErrorCodes.EXCEEDS_MAX ) );
+			result.addError(new ValidationError<ErrorCodes>(this, ErrorCodes.EXCEEDS_MAX, v) );
 
         return result;
     }
@@ -73,7 +83,6 @@ public class IntervalValidator<N extends Comparable<N>>
     public static enum ErrorCodes
     {
         LOWER_THAN_MIN,
-        EXCEEDS_MAX,
-        NEGATIVE
+        EXCEEDS_MAX
     }
 }
