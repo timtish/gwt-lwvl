@@ -10,11 +10,10 @@ import java.util.List;
  */
 public class ValidationResult implements Iterable<ValidationError<?>>
 {
-	private final List<ValidationError<?>> errors;
+	private final List<ValidationError<?>> errors = new LinkedList<ValidationError<?>>();
 
     public ValidationResult()
     {
-        this.errors = new LinkedList<ValidationError<?>>();
     }
     
     public void addError( ValidationError<?> error )
