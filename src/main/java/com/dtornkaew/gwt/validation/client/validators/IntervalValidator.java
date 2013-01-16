@@ -1,9 +1,9 @@
 package com.dtornkaew.gwt.validation.client.validators;
 
-import com.dtornkaew.gwt.validation.client.HasValue;
 import com.dtornkaew.gwt.validation.client.ValidationError;
 import com.dtornkaew.gwt.validation.client.ValidationResult;
 import com.dtornkaew.gwt.validation.client.Validator;
+import com.google.gwt.user.client.TakesValue;
 
 /**
  * Validator, requires specified integer(or float) interval.
@@ -17,25 +17,25 @@ public class IntervalValidator<N extends Comparable<N>>
     
     private N maxValue;
 
-	private final HasValue<N> target;
+	private final TakesValue<N> target;
     
-    public IntervalValidator(HasValue<N> target)
+    public IntervalValidator(TakesValue<N> target)
     {
         this( "IntervalValidator", target );
     }
 
-    public IntervalValidator(String key, HasValue<N> target)
+    public IntervalValidator(String key, TakesValue<N> target)
     {
         super( key );
 		this.target = target;
     }
 
-    public IntervalValidator(HasValue<N> target, N minValue, N maxValue)
+    public IntervalValidator(TakesValue<N> target, N minValue, N maxValue)
     {
         this( "IntervalValidator", target, minValue, maxValue );
     }
 
-    public IntervalValidator(String key, HasValue<N> target, N minValue, N maxValue)
+    public IntervalValidator(String key, TakesValue<N> target, N minValue, N maxValue)
     {
         super( key );
 		this.target = target;

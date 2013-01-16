@@ -4,12 +4,22 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.*;
+import com.google.gwt.event.logical.shared.CloseEvent;
+import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+
 /**
  * Abstract validator.
  *
  * @param <T> target element class
  */
-public abstract class Validator<T>
+public abstract class Validator<T> implements
+		/*gwt logical events*/ ValueChangeHandler, ChangeHandler, CloseHandler, BlurHandler,
+		/*keyboard events*/ KeyPressHandler, KeyUpHandler,
+		/*mouse events*/ ClickHandler, MouseUpHandler, MouseMoveHandler, MouseWheelHandler, MouseOutHandler,
+		/*touch events*/ TouchEndHandler, TouchMoveHandler, TouchCancelHandler
 {
     private List<ValidationAction> actions = new LinkedList<ValidationAction>();
 
@@ -60,4 +70,76 @@ public abstract class Validator<T>
         while ( i.hasNext() )
             i.next().reset();
     }
+
+	/* Validator activation events */
+
+	@Override
+	public void onBlur(BlurEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onChange(ChangeEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onClick(ClickEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onClose(CloseEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onKeyPress(KeyPressEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onKeyUp(KeyUpEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onMouseMove(MouseMoveEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onMouseUp(MouseUpEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onMouseWheel(MouseWheelEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onValueChange(ValueChangeEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onMouseOut(MouseOutEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onTouchCancel(TouchCancelEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onTouchEnd(TouchEndEvent event) {
+		if (enabled) validate();
+	}
+
+	@Override
+	public void onTouchMove(TouchMoveEvent event) {
+		if (enabled) validate();
+	}
 }

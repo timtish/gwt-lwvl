@@ -1,9 +1,9 @@
 package com.dtornkaew.gwt.validation.client.validators;
 
-import com.dtornkaew.gwt.validation.client.HasValue;
 import com.dtornkaew.gwt.validation.client.ValidationError;
 import com.dtornkaew.gwt.validation.client.ValidationResult;
 import com.dtornkaew.gwt.validation.client.Validator;
+import com.google.gwt.user.client.TakesValue;
 
 /**
  * Validator, requires increasing values.
@@ -12,14 +12,14 @@ public class SequenceValidator<N extends Comparable<N>>
     extends Validator<N>
 {
 	private boolean canEquals;
-	private HasValue<N>[] targets;
+	private TakesValue<N>[] targets;
 	
-    public SequenceValidator(boolean canEquals, HasValue<N>... targets)
+    public SequenceValidator(boolean canEquals, TakesValue<N>... targets)
     {
         this("HasTrueValidator", canEquals, targets);
     }
 
-    public SequenceValidator(String key, boolean canEquals, HasValue<N>... targets)
+    public SequenceValidator(String key, boolean canEquals, TakesValue<N>... targets)
     {
         super( key );
 		this.canEquals = canEquals;

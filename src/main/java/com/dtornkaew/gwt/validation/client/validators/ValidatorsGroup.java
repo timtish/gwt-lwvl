@@ -22,6 +22,10 @@ public class ValidatorsGroup extends Validator
 		this.validators = Arrays.asList(validators);
 	}
 
+	public void addValidators(Validator<?>... validators) {
+		this.validators.addAll(Arrays.asList(validators));
+	}
+
     public ValidationResult validate()
     {
 		validationResult.clearErrors();
@@ -29,11 +33,13 @@ public class ValidatorsGroup extends Validator
 
 		for( Validator<?> v : validators )
 		{
-			ValidationResult r = v.validate();
-			if( r.getErrors().size() > 0 )
-			{
-				validationResult.addErrors(r.getErrors());
-				v.performActions( r );
+			if (v.isEnabled()) {
+				ValidationResult r = v.validate();
+				if( r.getErrors().size() > 0 )
+				{
+					validationResult.addErrors(r.getErrors());
+					v.performActions( r );
+				}
 			}
 		}
 

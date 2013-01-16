@@ -76,9 +76,9 @@ public class SimpleValidationProcessorImpl
         // Perform global actions.
         if( invalidResults.size() > 0 )
         {
-            ValidationResult[] results = invalidResults.toArray( new ValidationResult[0] );
-            for( ValidationAction ga : globalActions )
-                ga.invoke( results );
+			ValidationResult globalValidationResult = new ValidationResult();
+            for (ValidationResult vr : invalidResults) globalValidationResult.addErrors(vr.getErrors());
+            for (ValidationAction ga : globalActions) ga.invoke(globalValidationResult);
         }
                             
         return ( invalidResults.size() == 0 );
