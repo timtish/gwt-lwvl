@@ -85,8 +85,7 @@ public class ValidatorController implements
 		while ( i.hasNext() ) i.next().reset();
 	}
 
-    public void validate()
-    {
+	public ValidationResult clientOnlyValidate() {
 		ValidationResult validationResult = new ValidationResult();
 		for( ClientValidator v : validators )
 		{
@@ -95,6 +94,12 @@ public class ValidatorController implements
 				validationResult.addErrors(r.getErrors());
 			}
 		}
+		return validationResult;
+	}
+
+    public void validate()
+    {
+		ValidationResult validationResult = clientOnlyValidate();
 		if (!validationResult.isValid() || asyncValidator == null) {
 			performActions(validationResult);
 		} else {
