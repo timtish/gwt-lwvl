@@ -2,7 +2,6 @@ package com.dtornkaew.gwt.validation.client.validators;
 
 import com.dtornkaew.gwt.validation.client.ValidationError;
 import com.dtornkaew.gwt.validation.client.ValidationResult;
-import com.dtornkaew.gwt.validation.client.Validator;
 import com.google.gwt.user.client.TakesValue;
 
 /**
@@ -11,7 +10,7 @@ import com.google.gwt.user.client.TakesValue;
  * @param <T>
  */
 public class RequiredValidator<T>
-    extends Validator<T>
+    extends ClientValidator<T>
 {
 	private final TakesValue<T>[] targets;
 

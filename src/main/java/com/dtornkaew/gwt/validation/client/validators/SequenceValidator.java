@@ -2,14 +2,13 @@ package com.dtornkaew.gwt.validation.client.validators;
 
 import com.dtornkaew.gwt.validation.client.ValidationError;
 import com.dtornkaew.gwt.validation.client.ValidationResult;
-import com.dtornkaew.gwt.validation.client.Validator;
 import com.google.gwt.user.client.TakesValue;
 
 /**
  * Validator, requires increasing values.
  */
 public class SequenceValidator<N extends Comparable<N>>
-    extends Validator<N>
+    extends ClientValidator<N>
 {
 	private boolean canEquals;
 	private TakesValue<N>[] targets;

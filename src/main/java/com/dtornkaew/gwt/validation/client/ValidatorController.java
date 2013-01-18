@@ -5,6 +5,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.dtornkaew.gwt.validation.client.validators.AsyncValidator;
+import com.dtornkaew.gwt.validation.client.validators.ClientValidator;
 import com.google.gwt.event.dom.client.*;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -17,7 +19,7 @@ public class ValidatorController implements
 		/*mouse events*/ ClickHandler, MouseUpHandler, MouseMoveHandler, MouseWheelHandler, MouseOutHandler,
 		/*touch events*/ TouchEndHandler, TouchMoveHandler, TouchCancelHandler
 {
-	private final List<Validator<?>> validators = new LinkedList<Validator<?>>();
+	private final List<ClientValidator<?>> validators = new LinkedList<ClientValidator<?>>();
 
 	private List<ValidationHandler> actions = new LinkedList<ValidationHandler>();
 
@@ -28,16 +30,16 @@ public class ValidatorController implements
 	public ValidatorController() {
 	}
 
-	public ValidatorController(Validator<?>... validators) {
+	public ValidatorController(ClientValidator<?>... validators) {
 		addValidators(validators);
 	}
 
-	public ValidatorController(AsyncValidator asyncValidator, Validator<?>... validators) {
+	public ValidatorController(AsyncValidator asyncValidator, ClientValidator<?>... validators) {
 		setAsyncValidator(asyncValidator);
 		addValidators(validators);
 	}
 
-	public ValidatorController addValidators(Validator<?>... validators) {
+	public ValidatorController addValidators(ClientValidator<?>... validators) {
 		this.validators.addAll(Arrays.asList(validators));
 		return this;
 	}
@@ -86,7 +88,7 @@ public class ValidatorController implements
     public void validate()
     {
 		ValidationResult validationResult = new ValidationResult();
-		for( Validator v : validators )
+		for( ClientValidator v : validators )
 		{
 			if (v.isEnabled()) {
 				ValidationResult r = v.validate();

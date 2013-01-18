@@ -1,38 +1,14 @@
 package com.dtornkaew.gwt.validation.client;
 
 /**
- * Abstract validator.
- *
- * @param <T> target element class
+ * @author Timofey Tishin (ttishin@luxoft.com)
  */
-public abstract class Validator<T>
-{
-    private boolean enabled;
-    
-    private final String key;
-    
-    public Validator( String key )
-    {
-        this.enabled = true;
-        this.key = key;
-    }
-    
-    public String getKey()
-    {
-        return key;
-    }
-    
-    public boolean isEnabled()
-    {
-        return enabled;
-    }
-    
-    public Validator<T> setEnabled( boolean value )
-    {
-        enabled = value;
-        return this;
-    }
+public interface Validator<T> {
 
-    public abstract ValidationResult validate();
+	String getKey();
+
+	boolean isEnabled();
+
+	Validator<T> setEnabled(boolean value);
 
 }
