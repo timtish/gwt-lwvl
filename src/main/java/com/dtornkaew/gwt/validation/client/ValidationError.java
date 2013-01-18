@@ -6,6 +6,7 @@ import java.util.List;
 public class ValidationError<C>
 {
 	private final Validator validator;
+	private final String key;
 	private final C code;
 	private final List targets;
 	
@@ -13,6 +14,15 @@ public class ValidationError<C>
 	{
 		this.validator = validator;
 		this.code = code;
+		this.key = validator.getKey();
+		this.targets = Arrays.asList(targets);
+	}
+
+	public ValidationError(String key, C code, Object... targets)
+	{
+		this.validator = null;
+		this.code = code;
+		this.key = key;
 		this.targets = Arrays.asList(targets);
 	}
 
@@ -21,8 +31,8 @@ public class ValidationError<C>
 		return code;
 	}
 
-	public String getValidatorKey() {
-		return validator.getKey();
+	public String getKey() {
+		return key;
 	}
 
 	public Validator getValidator() {

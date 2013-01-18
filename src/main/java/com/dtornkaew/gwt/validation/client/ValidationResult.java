@@ -15,6 +15,16 @@ public class ValidationResult implements Iterable<ValidationError<?>>
     public ValidationResult()
     {
     }
+
+    public ValidationResult(String code)
+    {
+		this("", code);
+    }
+
+    public ValidationResult(String key, String code)
+    {
+		addError(new ValidationError<Object>(key, code));
+    }
     
     public void addError( ValidationError<?> error )
     {
